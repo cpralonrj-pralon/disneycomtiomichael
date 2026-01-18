@@ -24,12 +24,13 @@ const Gallery: React.FC = () => {
         const mappedPhotos: PolaroidPhoto[] = data.map((p: any) => ({
           id: p.id,
           caption: p.caption,
-          imageUrl: p.image_url,
+          imageUrl: !p.image_url.startsWith('http') && p.image_url.startsWith('/')
+            ? `${import.meta.env.BASE_URL}${p.image_url.replace(/^\//, '')}`
+            : p.image_url,
           rotationClass: p.rotation_class || 'polaroid-rotate-1'
         }));
         setPhotos(mappedPhotos);
       } else {
-        // Fallback to static if no DB photos
         setPhotos(POLAROIDS);
       }
     } catch (error) {
@@ -40,14 +41,32 @@ const Gallery: React.FC = () => {
     }
   };
 
-  // Duplicate for seamless loop
+  // Duplicate for seamless loop on desktop
   const displayPhotos = [...photos, ...photos];
 
-  if (loading) return null; // Or a skeleton
+  if (loading) return null;
 
   return (
     <section className="py-24 overflow-hidden">
-      <div className="flex gap-12 animate-scroll w-max py-10 px-6 hover:pause">
+      {/* Mobile Swipe View */}
+      <div className="md:hidden overflow-x-auto whitespace-nowrap px-6 py-10 pb-12 snap-x snap-mandatory scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="flex gap-6 w-fit">
+          {photos.map((photo, idx) => (
+            <div key={`${photo.id}-${idx}-mobile`} className={`inline-block whitespace-normal snap-center bg-white p-3 shadow-lg transform rotate-0 w-64 flex-none`}>
+              <div
+                className="w-full aspect-square bg-cover bg-center"
+                style={{ backgroundImage: `url('${photo.imageUrl}')` }}
+              ></div>
+              <div className="pt-4 text-background-dark text-center font-bold font-serif text-lg italic truncate">
+                {photo.caption}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop Marquee View */}
+      <div className="hidden md:flex gap-12 animate-scroll w-max py-10 px-6 hover:pause">
         {displayPhotos.map((photo, idx) => (
           <div key={`${photo.id}-${idx}`} className={`flex-none bg-white p-3 shadow-xl transform transition-transform duration-300 hover:scale-105 hover:z-10 ${photo.rotationClass}`}>
             <div
