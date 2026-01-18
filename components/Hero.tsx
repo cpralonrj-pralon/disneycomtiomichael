@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 const HERO_IMAGES = [
-  '/hero/img1.jpg',
-  '/hero/img2.jpg',
-  '/hero/img3.jpg',
-  '/hero/img4.jpg',
-  '/hero/img5.jpg'
+  '/disneycomtiomichael/hero/img1.jpg',
+  '/disneycomtiomichael/hero/img2.jpg',
+  '/disneycomtiomichael/hero/img3.jpg',
+  '/disneycomtiomichael/hero/img4.jpg',
+  '/disneycomtiomichael/hero/img5.jpg'
 ];
 
 interface HeroProps {

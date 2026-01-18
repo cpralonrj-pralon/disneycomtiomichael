@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (adminCreds.email === 'admin' && adminCreds.password === '123456') {
-      window.location.href = '/?admin=true';
+      window.location.href = '/disneycomtiomichael/?admin=true';
     } else {
       alert('Credenciais inválidas!');
     }

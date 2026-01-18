@@ -11,7 +11,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: window.location.origin
+                    redirectTo: window.location.origin + '/disneycomtiomichael/'
                 }
             });
             if (error) throw error;

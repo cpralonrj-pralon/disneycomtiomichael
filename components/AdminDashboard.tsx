@@ -132,7 +132,7 @@ const AdminDashboard: React.FC = () => {
     const handleGoogleLogin = async () => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: window.location.origin + '?admin=true' }
+            options: { redirectTo: window.location.origin + '/disneycomtiomichael/?admin=true' }
         });
         if (error) alert('Erro com Google: ' + error.message);
     };

@@ -20,7 +20,7 @@ serve(async (req) => {
 
         if (!chatId) throw new Error('Missing chatId')
 
-        const adminLink = `https://tiomichael.com/?admin_chat=${chatId}`
+        const adminLink = `https://cpralonrj-pralon.github.io/disneycomtiomichael/?admin_chat=${chatId}`
         const text = `🔔 *Novo Cliente no Site*\n\n👤 *Nome*: ${visitorName || 'Visitante'}\n💬 *Mensagem*: ${messageContent}\n\n👉 *Responder*: ${adminLink}`
 
         // Send WhatsApp to Admin
