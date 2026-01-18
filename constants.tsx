@@ -122,7 +122,7 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const POLAROIDS: PolaroidPhoto[] = [
   { id: 'p1', caption: 'Magic Kingdom 2024', imageUrl: 'https://images.unsplash.com/photo-1597466599360-3b9775841aec?auto=format&fit=crop&q=80&w=400', rotationClass: 'polaroid-rotate-1' },
-  { id: 'p2', caption: 'Universal Moments', imageUrl: '/disneycomtiomichael/images/universal_moments.jpg', rotationClass: 'polaroid-rotate-2' },
-  { id: 'p3', caption: 'Nossa Galera!', imageUrl: '/disneycomtiomichael/images/nossa_galera.jpg', rotationClass: 'polaroid-rotate-3' },
-  { id: 'p4', caption: 'Orlando Night', imageUrl: '/disneycomtiomichael/images/orlando_night.png', rotationClass: 'polaroid-rotate-4' }
+  { id: 'p2', caption: 'Universal Moments', imageUrl: `${import.meta.env.BASE_URL}images/universal_moments.jpg`, rotationClass: 'polaroid-rotate-2' },
+  { id: 'p3', caption: 'Nossa Galera!', imageUrl: `${import.meta.env.BASE_URL}images/nossa_galera.jpg`, rotationClass: 'polaroid-rotate-3' },
+  { id: 'p4', caption: 'Orlando Night', imageUrl: `${import.meta.env.BASE_URL}images/orlando_night.png`, rotationClass: 'polaroid-rotate-4' }
 ];

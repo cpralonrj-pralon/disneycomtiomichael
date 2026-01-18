@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 const HERO_IMAGES = [
-  '/disneycomtiomichael/hero/img1.jpg',
-  '/disneycomtiomichael/hero/img2.jpg',
-  '/disneycomtiomichael/hero/img3.jpg',
-  '/disneycomtiomichael/hero/img4.jpg',
-  '/disneycomtiomichael/hero/img5.jpg'
+  `${import.meta.env.BASE_URL}hero/img1.jpg`,
+  `${import.meta.env.BASE_URL}hero/img2.jpg`,
+  `${import.meta.env.BASE_URL}hero/img3.jpg`,
+  `${import.meta.env.BASE_URL}hero/img4.jpg`,
+  `${import.meta.env.BASE_URL}hero/img5.jpg`
 ];
 
 interface HeroProps {
