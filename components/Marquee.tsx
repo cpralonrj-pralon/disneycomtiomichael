@@ -91,6 +91,23 @@ const Marquee: React.FC<MarqueeProps> = ({
         isHovered.current = true;
     };
 
+    // Touch Handlers
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setIsDragging(true);
+        setStartX(e.touches[0].pageX - xPos.current);
+    };
+
+    const handleTouchEnd = () => {
+        setIsDragging(false);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging) return;
+        // e.preventDefault(); // On some browsers this might block scroll, be careful
+        const x = e.touches[0].pageX - startX;
+        xPos.current = x;
+    };
+
     return (
         <div
             className={`overflow-hidden relative cursor-grab active:cursor-grabbing ${className}`}
@@ -99,6 +116,9 @@ const Marquee: React.FC<MarqueeProps> = ({
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onTouchMove={handleTouchMove}
         >
             <div
                 ref={containerRef}

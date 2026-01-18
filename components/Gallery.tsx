@@ -4,6 +4,8 @@ import { supabase } from '../lib/supabaseClient';
 import { POLAROIDS } from '../constants';
 import { PolaroidPhoto } from '../types';
 
+import Marquee from './Marquee';
+
 const Gallery: React.FC = () => {
   const [photos, setPhotos] = useState<PolaroidPhoto[]>([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ const Gallery: React.FC = () => {
 
   const fetchPhotos = async () => {
     try {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('gallery_photos')
         .select('*')
         .order('created_at', { ascending: false });
@@ -48,38 +50,27 @@ const Gallery: React.FC = () => {
 
   return (
     <section className="py-24 overflow-hidden">
-      {/* Mobile Swipe View */}
-      <div className="md:hidden overflow-x-auto whitespace-nowrap px-6 py-10 pb-12 snap-x snap-mandatory scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        <div className="flex gap-6 w-fit">
+      <div className="max-w-7xl mx-auto px-6 mb-8">
+        <h2 className="text-4xl md:text-5xl font-black text-white">Galeria de Fotos</h2>
+        <p className="text-white/50 mt-2">Momentos mágicos dos nossos viajantes.</p>
+      </div>
+
+      <div className="fade-mask">
+        <Marquee speed={0.5}>
           {photos.map((photo, idx) => (
-            <div key={`${photo.id}-${idx}-mobile`} className={`inline-block whitespace-normal snap-center bg-white p-3 shadow-lg transform rotate-0 w-64 flex-none`}>
+            <div key={`${photo.id}-${idx}`} className={`flex-none bg-white p-3 shadow-xl transform transition-transform duration-300 hover:scale-105 hover:z-10 ${photo.rotationClass}`}>
               <div
-                className="w-full aspect-square bg-cover bg-center"
+                className="w-64 aspect-square bg-cover bg-center"
                 style={{ backgroundImage: `url('${photo.imageUrl}')` }}
               ></div>
-              <div className="pt-4 text-background-dark text-center font-bold font-serif text-lg italic truncate">
+              <div className="pt-4 text-background-dark text-center font-bold font-serif text-lg italic truncate max-w-[256px]">
                 {photo.caption}
               </div>
             </div>
           ))}
-        </div>
+        </Marquee>
       </div>
-
-      {/* Desktop Marquee View */}
-      <div className="hidden md:flex gap-12 animate-scroll w-max py-10 px-6 hover:pause">
-        {displayPhotos.map((photo, idx) => (
-          <div key={`${photo.id}-${idx}`} className={`flex-none bg-white p-3 shadow-xl transform transition-transform duration-300 hover:scale-105 hover:z-10 ${photo.rotationClass}`}>
-            <div
-              className="w-64 aspect-square bg-cover bg-center"
-              style={{ backgroundImage: `url('${photo.imageUrl}')` }}
-            ></div>
-            <div className="pt-4 text-background-dark text-center font-bold font-serif text-lg italic truncate max-w-[256px]">
-              {photo.caption}
-            </div>
-          </div>
-        ))}
-        {photos.length === 0 && !loading && <div className="text-red-500 font-bold p-4">Erro: Nenhuma foto carregada (Check Console)</div>}
-      </div>
+      {photos.length === 0 && !loading && <div className="text-red-500 font-bold p-4 text-center">Erro: Nenhuma foto carregada (Check Console)</div>}
     </section >
   );
 };
