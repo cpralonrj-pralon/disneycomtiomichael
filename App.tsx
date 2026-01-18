@@ -36,7 +36,26 @@ const App: React.FC = () => {
   useEffect(() => {
     fetchTrips();
     fetchDestinations();
+    trackPageView();
   }, []);
+
+  const trackPageView = async () => {
+    // 1. Get or Create Visitor Token
+    let token = localStorage.getItem('tio_michael_visitor_token');
+    if (!token) {
+      token = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      localStorage.setItem('tio_michael_visitor_token', token);
+    }
+
+    // 2. Insert Page View
+    try {
+      await supabase.from('page_views').insert([
+        { visitor_token: token, page_path: window.location.pathname }
+      ]);
+    } catch (error) {
+      console.warn('Analytics Error:', error); // Silent fail
+    }
+  };
 
   const fetchDestinations = async () => {
     const { data } = await supabase.from('destinations').select('*').order('name', { ascending: true });

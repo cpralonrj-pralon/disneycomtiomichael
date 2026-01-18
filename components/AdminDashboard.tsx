@@ -480,12 +480,37 @@ const AdminDashboard: React.FC = () => {
         if (activeChatId === id) setActiveChatId(null);
     };
 
+    // --- ANALYTICS LOGIC ---
+    const sendAnalyticsReport = async () => {
+        if (!confirm('Gerar e enviar relatório de acessos de HOJE via WhatsApp?')) return;
+
+        // Use fetch directly to avoid CORS/Options issues with client library sometimes
+        try {
+            const { data, error } = await supabase.functions.invoke('send-analytics-report');
+            if (error) throw error;
+            alert(`Relatório Enviado com Sucesso! 🚀\n\n📊 Visitas Hoje: ${data.totalViews}\n👤 Únicos: ${data.uniqueVisitors}`);
+        } catch (error: any) {
+            console.error('Analytics Error:', error);
+            alert('Erro ao enviar relatório. Verifique se a Edge Function está deployada.');
+        }
+    };
+
+
     return (
         <section className="min-h-screen bg-background-dark text-white pt-24 px-6 pb-24">
             <div className="max-w-[1600px] mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
                     <div>
-                        <h1 className="text-4xl font-black">Painel Administrativo</h1>
+                        <div className="flex items-center gap-4">
+                            <h1 className="text-4xl font-black">Painel Administrativo</h1>
+                            <button
+                                onClick={sendAnalyticsReport}
+                                className="bg-green-600 hover:bg-green-500 text-white p-2 rounded-full shadow-lg transition-transform hover:scale-110"
+                                title="Enviar Relatório de Acessos via WhatsApp"
+                            >
+                                <span className="material-symbols-outlined text-xl">perm_phone_msg</span>
+                            </button>
+                        </div>
                         <p className="text-sm text-primary mt-1">{currentUser ? `Logado: ${currentUser.email}` : 'NÃO LOGADO'}</p>
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center">
