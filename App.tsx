@@ -120,26 +120,8 @@ const App: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            {/* Infinite Marquee Container */}
-            {/* Mobile Swipe View */}
-            <div className="md:hidden w-full overflow-x-auto flex gap-4 px-6 pb-8 snap-x snap-mandatory scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {destinations.length > 0 ? destinations.map((park: any) => (
-                <ParkCard key={park.id} park={{
-                  id: park.id,
-                  name: park.name,
-                  description: park.description,
-                  imageUrl: park.image_url,
-                  rating: park.rating || 5.0
-                }} />
-              )) : (
-                PARKS.map(park => (
-                  <ParkCard key={park.id} park={park} />
-                ))
-              )}
-            </div>
-
-            {/* Desktop Infinite Marquee */}
-            <div className="hidden md:block fade-mask">
+            {/* Infinite Marquee (Mobile + Desktop) */}
+            <div className="fade-mask">
               <Marquee speed={0.8}>
                 {destinations.length > 0 ? destinations.map((park: any) => (
                   <ParkCard key={park.id} park={{
@@ -174,7 +156,6 @@ const App: React.FC = () => {
         </ScrollReveal>
       </main>
 
-      <Footer />
       <Footer />
       <Chatbot isOpen={isChatOpen} toggleOpen={() => setIsChatOpen(!isChatOpen)} />
 
