@@ -164,11 +164,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen: propIsOpen, toggleOpen }) => 
       await supabase.from('chat_messages').insert([{ chat_id: chatId, sender: 'visitor', content: userMessage }]);
 
       // Trigger Alert (Fire and forget)
-      fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-support-alert`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}` },
-        body: JSON.stringify({ chatId, visitorName: 'Visitante Site', messageContent: userMessage })
-      }).catch(err => console.error("Alert Error", err));
+      // Trigger Alert (Fire and forget)
+      supabase.functions.invoke('send-support-alert', {
+        body: { chatId, visitorName: 'Visitante Site', messageContent: userMessage }
+      }).then(({ error }) => {
+        if (error) console.error("Alert Error (Invoke)", error);
+      });
 
     } else {
       // AI Logic
